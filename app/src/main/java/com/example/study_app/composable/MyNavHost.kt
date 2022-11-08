@@ -1,5 +1,10 @@
 package com.example.study_app.composable
 
+import android.os.Build
+import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -14,6 +19,18 @@ fun MyNavHost(
     navController: NavHostController = rememberNavController(),
     startDestination: String = "main"
 ) {
+    val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia()
+    ) { uri ->
+        Log.d("MyNavHost", "pickerから取得したUri $uri")
+    }
+    val multiPhotoPickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickMultipleVisualMedia(3)
+    ) { uris ->
+        Log.d("MyNavHost", "pickerから取得したUri数 ${uris.size}")
+    }
+
+
     NavHost(
         modifier = modifier,
         navController = navController,
@@ -30,7 +47,44 @@ fun MyNavHost(
             RequestPermissionComposable()
         }
         composable("photo_picker") {
-            PhotoPickerComposable()
+            PhotoPickerComposable(
+                onLaunchSinglePickerImageOnly = {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        singlePhotoPickerLauncher.launch(
+                            PickVisualMediaRequest(
+                                ActivityResultContracts.PickVisualMedia.ImageOnly
+                            )
+                        )
+                    }
+                },
+                onLaunchSinglePickerImageAndVideo = {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        singlePhotoPickerLauncher.launch(
+                            PickVisualMediaRequest(
+                                ActivityResultContracts.PickVisualMedia.ImageAndVideo
+                            )
+                        )
+                    }
+                },
+                onLaunchSinglePickerVideoOnly = {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        singlePhotoPickerLauncher.launch(
+                            PickVisualMediaRequest(
+                                ActivityResultContracts.PickVisualMedia.VideoOnly
+                            )
+                        )
+                    }
+                },
+                onLaunchMultiPickerMimeType = {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        multiPhotoPickerLauncher.launch(
+                            PickVisualMediaRequest(
+                                ActivityResultContracts.PickVisualMedia.SingleMimeType("*/*")
+                            )
+                        )
+                    }
+                }
+            )
         }
     }
 
