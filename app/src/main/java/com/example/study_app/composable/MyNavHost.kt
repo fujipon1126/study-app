@@ -1,8 +1,12 @@
 package com.example.study_app.composable
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Build
+import android.provider.MediaStore
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
@@ -29,7 +33,15 @@ fun MyNavHost(
     ) { uris ->
         Log.d("MyNavHost", "pickerから取得したUri数 ${uris.size}")
     }
+    val pickMultipleMediaLauncher: ActivityResultLauncher<Intent> = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) {
+        if (it.resultCode != Activity.RESULT_OK) {
+            Log.d("MyNavHost", "キャンセル")
+        } else {
 
+        }
+    }
 
     NavHost(
         modifier = modifier,
@@ -82,6 +94,15 @@ fun MyNavHost(
                                 ActivityResultContracts.PickVisualMedia.SingleMimeType("*/*")
                             )
                         )
+                    }
+                },
+                onLaunchOtherPicker = {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        pickMultipleMediaLauncher.launch(
+                            Intent(MediaStore.ACTION_PICK_IMAGES).apply {
+                                type = "*/*"
+                                putExtra(MediaStore.EXTRA_PICK_IMAGES_MAX, 3)
+                            })
                     }
                 }
             )

@@ -10,7 +10,8 @@ fun PhotoPickerComposable(
     onLaunchSinglePickerImageOnly: () -> Unit,
     onLaunchSinglePickerImageAndVideo: () -> Unit,
     onLaunchSinglePickerVideoOnly: () -> Unit,
-    onLaunchMultiPickerMimeType: () -> Unit
+    onLaunchMultiPickerMimeType: () -> Unit,
+    onLaunchOtherPicker: () -> Unit
 ) {
     Column {
         Button(onClick = onLaunchSinglePickerImageOnly) {
@@ -24,6 +25,9 @@ fun PhotoPickerComposable(
         }
         Button(onClick = onLaunchMultiPickerMimeType) {
             Text(text = "launch multi photo picker MimeType = */* !")
+        }
+        Button(onClick = onLaunchOtherPicker) {
+            Text(text = "launch other photo picker ")
         }
     }
 }
