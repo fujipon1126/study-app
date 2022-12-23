@@ -14,6 +14,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import coil.compose.AsyncImage
 import com.example.study_app.R
 
 @Composable
@@ -23,6 +24,21 @@ fun ZoomImageComposable() {
         painter = painterResource(id = R.drawable.lucci),
         contentDescription = "ルッチ",
         contentScale = ContentScale.Fit,
+        modifier = Modifier
+            .fillMaxSize()
+            .pointerInput(Unit) {
+                detectTransformGestures { _, _, zoom, _ ->
+                    scale *= zoom
+                }
+            }
+            .graphicsLayer {
+                scaleX = scale
+                scaleY = scale
+            }
+    )
+    AsyncImage(
+        model = "https://developer.android.com/images/brand/Android_Robot.png",
+        contentDescription = "kintone",
         modifier = Modifier
             .fillMaxSize()
             .pointerInput(Unit) {
