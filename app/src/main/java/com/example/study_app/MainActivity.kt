@@ -46,7 +46,8 @@ class MainActivity : ComponentActivity() {
 fun MainComposable(
     modifier: Modifier = Modifier,
     onNavigateToRequest: () -> Unit,
-    onNavigateToPhotoPicker: () -> Unit
+    onNavigateToPhotoPicker: () -> Unit,
+    onNavigateToZoomImage: () -> Unit
 ) {
     Column(modifier = modifier) {
         Button(onClick = onNavigateToRequest) {
@@ -55,6 +56,10 @@ fun MainComposable(
 
         Button(onClick = onNavigateToPhotoPicker) {
             Text(text = "Navigate PhotoPickerComposable")
+        }
+
+        Button(onClick = onNavigateToZoomImage) {
+            Text(text = "Navigate ZoomImageComposable")
         }
     }
 }
@@ -65,7 +70,8 @@ fun DefaultPreview() {
     StudyappTheme {
         MainComposable(
             onNavigateToRequest = {},
-            onNavigateToPhotoPicker = {}
+            onNavigateToPhotoPicker = {},
+            onNavigateToZoomImage = {}
         )
     }
 }
