@@ -19,13 +19,10 @@ import coil.compose.AsyncImage
 import com.example.study_app.R
 
 @Composable
-fun rememberZooState() = remember { ZoomState() }
-
-@Composable
 fun ZoomImageComposable() {
-    var scale by remember { mutableStateOf(1f) }
-    var offset by remember { mutableStateOf(Offset.Zero) }
-    val zoomState = rememberZooState()
+//    var scale by remember { mutableStateOf(1f) }
+//    var offset by remember { mutableStateOf(Offset.Zero) }
+    val zoomState = rememberZoomState()
 
 //    Image(
 //        painter = painterResource(id = R.drawable.lucci),
