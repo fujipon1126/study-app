@@ -13,9 +13,13 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.toSize
 import coil.compose.AsyncImage
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.example.study_app.R
 
 @Composable
@@ -47,6 +51,9 @@ fun ZoomImageComposable() {
         model = "https://developer.android.com/images/brand/Android_Robot.png",
         contentDescription = "kintone",
         modifier = Modifier
+            .onSizeChanged { size ->
+                zoomState.setLayoutSize(size.toSize())
+            }
             .fillMaxSize()
             .pointerInput(Unit) {
                 detectTransformGestures { _, pan, zoom, _ ->
@@ -58,7 +65,10 @@ fun ZoomImageComposable() {
                 scaleY = zoomState.scale
                 translationX = zoomState.offsetX
                 translationY = zoomState.offsetY
-            }
+            },
+        onSuccess = { success ->
+            zoomState.setImageSize(success.painter.intrinsicSize)
+        }
     )
 }
 
