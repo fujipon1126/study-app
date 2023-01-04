@@ -19,25 +19,33 @@ import coil.compose.AsyncImage
 import com.example.study_app.R
 
 @Composable
+fun rememberZooState() = remember { ZoomState() }
+
+@Composable
 fun ZoomImageComposable() {
     var scale by remember { mutableStateOf(1f) }
     var offset by remember { mutableStateOf(Offset.Zero) }
-    Image(
-        painter = painterResource(id = R.drawable.lucci),
-        contentDescription = "ルッチ",
-        contentScale = ContentScale.Fit,
-        modifier = Modifier
-            .fillMaxSize()
-            .pointerInput(Unit) {
-                detectTransformGestures { _, _, zoom, _ ->
-                    scale *= zoom
-                }
-            }
-            .graphicsLayer {
-                scaleX = scale
-                scaleY = scale
-            }
-    )
+    val zoomState = rememberZooState()
+
+//    Image(
+//        painter = painterResource(id = R.drawable.lucci),
+//        contentDescription = "ルッチ",
+//        contentScale = ContentScale.Fit,
+//        modifier = Modifier
+//            .fillMaxSize()
+//            .pointerInput(Unit) {
+//                detectTransformGestures { _, pan, zoom, _ ->
+//                    scale *= zoom
+//                    offset += pan
+//                }
+//            }
+//            .graphicsLayer {
+//                scaleX = scale
+//                scaleY = scale
+//                translationX = offset.x
+//                translationY = offset.y
+//            }
+//    )
     AsyncImage(
         model = "https://developer.android.com/images/brand/Android_Robot.png",
         contentDescription = "kintone",
@@ -45,15 +53,14 @@ fun ZoomImageComposable() {
             .fillMaxSize()
             .pointerInput(Unit) {
                 detectTransformGestures { _, pan, zoom, _ ->
-                    scale *= zoom
-                    offset += pan
+                    zoomState.applyGesture(pan, zoom)
                 }
             }
             .graphicsLayer {
-                scaleX = scale
-                scaleY = scale
-                translationX = offset.x
-                translationY = offset.y
+                scaleX = zoomState.scale
+                scaleY = zoomState.scale
+                translationX = zoomState.offsetX
+                translationY = zoomState.offsetY
             }
     )
 }
