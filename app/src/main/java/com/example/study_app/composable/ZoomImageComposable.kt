@@ -9,6 +9,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
@@ -20,6 +21,7 @@ import com.example.study_app.R
 @Composable
 fun ZoomImageComposable() {
     var scale by remember { mutableStateOf(1f) }
+    var offset by remember { mutableStateOf(Offset.Zero) }
     Image(
         painter = painterResource(id = R.drawable.lucci),
         contentDescription = "ルッチ",
@@ -42,13 +44,16 @@ fun ZoomImageComposable() {
         modifier = Modifier
             .fillMaxSize()
             .pointerInput(Unit) {
-                detectTransformGestures { _, _, zoom, _ ->
+                detectTransformGestures { _, pan, zoom, _ ->
                     scale *= zoom
+                    offset += pan
                 }
             }
             .graphicsLayer {
                 scaleX = scale
                 scaleY = scale
+                translationX = offset.x
+                translationY = offset.y
             }
     )
 }
