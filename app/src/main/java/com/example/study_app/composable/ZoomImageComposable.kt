@@ -1,12 +1,13 @@
 package com.example.study_app.composable
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.gestures.detectTransformGestures
+
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -21,13 +22,15 @@ import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import com.example.study_app.R
+import com.example.study_app.extension.detectTransformGestures
+import kotlinx.coroutines.launch
 
 @Composable
 fun ZoomImageComposable() {
 //    var scale by remember { mutableStateOf(1f) }
 //    var offset by remember { mutableStateOf(Offset.Zero) }
     val zoomState = rememberZoomState()
-
+    val scope = rememberCoroutineScope()
 //    Image(
 //        painter = painterResource(id = R.drawable.lucci),
 //        contentDescription = "ルッチ",
@@ -56,9 +59,18 @@ fun ZoomImageComposable() {
             }
             .fillMaxSize()
             .pointerInput(Unit) {
-                detectTransformGestures { _, pan, zoom, _ ->
-                    zoomState.applyGesture(pan, zoom)
-                }
+                detectTransformGestures(
+                    onGesture = { centroid, pan, zoom, _, timeMillis ->
+                        scope.launch {
+                            zoomState.applyGesture(pan, zoom, centroid, timeMillis)
+                        }
+                    },
+                    onGestureEnd = {
+                        scope.launch {
+                            zoomState.endGesture()
+                        }
+                    }
+                )
             }
             .graphicsLayer {
                 scaleX = zoomState.scale
