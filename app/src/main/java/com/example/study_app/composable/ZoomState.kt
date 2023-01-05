@@ -4,25 +4,21 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.exponentialDecay
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.input.pointer.util.VelocityTracker
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import java.lang.Float.max
 
 @Composable
 fun rememberZoomState(
-    minScale: Float = 1f,
     maxScale: Float = 3f
-) = remember { ZoomState(minScale, maxScale) }
+) = remember { ZoomState(maxScale) }
 
 @Stable
 class ZoomState(
-    private val minScale: Float,
     private val maxScale: Float
 ) {
     private var imageSize = Size.Zero
@@ -54,7 +50,10 @@ class ZoomState(
         }
     }
 
-    private var _scale = mutableStateOf(1f)
+    private var _scale = Animatable(1f).apply {
+        updateBounds(0.8f, maxScale)
+    }
+
     val scale: Float
         get() = _scale.value
 
@@ -76,7 +75,9 @@ class ZoomState(
         position: Offset,
         timeMillis: Long
     ) = coroutineScope {
-        _scale.value = (_scale.value * zoom).coerceIn(minScale, maxScale)
+        launch {
+            _scale.snapTo(_scale.value * zoom)
+        }
 
         val boundX = max((fitImageSize.width * _scale.value - layoutSize.width), 0f) / 2f
         _offsetX.updateBounds(-boundX, boundX)
@@ -107,6 +108,13 @@ class ZoomState(
                 _offsetY.animateDecay(velocity.y, velocityDecay)
             }
         }
+
+        if (_scale.value < 1f) {
+            launch {
+                _scale.animateTo(1f)
+            }
+        }
+
         shouldFling = true
     }
 }
