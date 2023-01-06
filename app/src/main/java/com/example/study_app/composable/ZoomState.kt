@@ -12,9 +12,13 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import java.lang.Float.max
 
+private const val MIN_SCALE = 1.0f
+private const val MID_SCALE = 1.75f
+private const val MAX_SCALE = 3.0f
+
 @Composable
 fun rememberZoomState(
-    maxScale: Float = 3f
+    maxScale: Float = MAX_SCALE
 ) = remember { ZoomState(maxScale) }
 
 @Stable
@@ -50,8 +54,9 @@ class ZoomState(
         }
     }
 
-    private var _scale = Animatable(1f).apply {
-        updateBounds(0.8f, maxScale)
+    private var _scale = Animatable(MIN_SCALE).apply {
+        // 一旦MIN_SCALEの半分まで縮小を許可するけど、endGesture()でMIN_SCALEに戻す
+        updateBounds(MIN_SCALE / 2, maxScale)
     }
 
     val scale: Float
@@ -109,12 +114,28 @@ class ZoomState(
             }
         }
 
-        if (_scale.value < 1f) {
+        if (_scale.value < MIN_SCALE) {
             launch {
-                _scale.animateTo(1f)
+                _scale.animateTo(MIN_SCALE)
             }
         }
 
         shouldFling = true
+    }
+
+    suspend fun applyDoubleTap() = coroutineScope {
+        if (_scale.value < MID_SCALE) {
+            launch {
+                _scale.animateTo(MID_SCALE)
+            }
+        } else if (_scale.value >= MID_SCALE && _scale.value < MAX_SCALE) {
+            launch {
+                _scale.animateTo(MAX_SCALE)
+            }
+        } else {
+            launch {
+                _scale.animateTo(MIN_SCALE)
+            }
+        }
     }
 }

@@ -1,8 +1,15 @@
 package com.example.study_app.composable
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+//import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.gestures.detectTransformGestures
+import androidx.compose.foundation.gestures.rememberTransformableState
+import androidx.compose.foundation.gestures.transformable
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -17,20 +24,45 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import com.example.study_app.R
 import com.example.study_app.extension.detectTransformGestures
+import com.example.study_app.extension.combinedClickable
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ZoomImageComposable() {
 //    var scale by remember { mutableStateOf(1f) }
 //    var offset by remember { mutableStateOf(Offset.Zero) }
+
     val zoomState = rememberZoomState()
     val scope = rememberCoroutineScope()
+
+//    val state = rememberTransformableState { zoomChange, offsetChange, _ ->
+//        scale *= zoomChange
+//        offset += offsetChange
+//    }
+
+//    Image(
+//        painter = painterResource(id = R.drawable.lucci),
+//        contentDescription = "ルッチ",
+//        contentScale = ContentScale.Fit,
+//        modifier = Modifier
+//            .fillMaxSize()
+//            .graphicsLayer {
+//                scaleX = scale
+//                scaleY = scale
+//                translationX = offset.x
+//                translationY = offset.y
+//            }
+//            .transformable(state = state)
+//    )
+
 //    Image(
 //        painter = painterResource(id = R.drawable.lucci),
 //        contentDescription = "ルッチ",
@@ -50,10 +82,19 @@ fun ZoomImageComposable() {
 //                translationY = offset.y
 //            }
 //    )
+
     AsyncImage(
         model = "https://developer.android.com/images/brand/Android_Robot.png",
         contentDescription = "kintone",
         modifier = Modifier
+            .combinedClickable(
+                onClick = {},
+                onDoubleClick = {
+                    scope.launch {
+                        zoomState.applyDoubleTap()
+                    }
+                }
+            )
             .onSizeChanged { size ->
                 zoomState.setLayoutSize(size.toSize())
             }
@@ -71,6 +112,13 @@ fun ZoomImageComposable() {
                         }
                     }
                 )
+//                detectTapGestures(
+//                    onDoubleTap = {
+//                        scope.launch {
+//                            zoomState.applyDoubleTap()
+//                        }
+//                    }
+//                )
             }
             .graphicsLayer {
                 scaleX = zoomState.scale
