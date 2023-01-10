@@ -106,8 +106,22 @@ class ZoomState(
     suspend fun endGesture() = coroutineScope {
         if (shouldFling) {
             val velocity = velocityTracker.calculateVelocity()
+            // ある一定速度を超えたら、速度は上限値とする
+            val x = if (velocity.x > 0) {
+                if (velocity.x > 10000) {
+                    10000f
+                } else {
+                    velocity.x
+                }
+            } else {
+                if (velocity.x < -10000) {
+                    -10000f
+                } else {
+                    velocity.x
+                }
+            }
             launch {
-                _offsetX.animateDecay(velocity.x, velocityDecay)
+                _offsetX.animateDecay(x, velocityDecay)
             }
             launch {
                 _offsetY.animateDecay(velocity.y, velocityDecay)
