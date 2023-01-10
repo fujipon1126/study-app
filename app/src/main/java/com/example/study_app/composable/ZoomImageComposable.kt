@@ -2,11 +2,12 @@ package com.example.study_app.composable
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-//import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.gestures.detectTransformGestures
+//import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.gestures.transformable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
@@ -31,7 +32,6 @@ import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import com.example.study_app.R
 import com.example.study_app.extension.detectTransformGestures
-import com.example.study_app.extension.combinedClickable
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -88,6 +88,8 @@ fun ZoomImageComposable() {
         contentDescription = "kintone",
         modifier = Modifier
             .combinedClickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
                 onClick = {},
                 onDoubleClick = {
                     scope.launch {
