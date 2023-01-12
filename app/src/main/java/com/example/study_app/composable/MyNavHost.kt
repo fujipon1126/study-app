@@ -109,7 +109,7 @@ fun MyNavHost(
             )
         }
         composable("zoom_image") {
-            ZoomImageComposable()
+            ZoomImageComposablePager()
         }
     }
 

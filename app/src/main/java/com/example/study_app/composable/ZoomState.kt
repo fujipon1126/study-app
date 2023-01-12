@@ -11,6 +11,7 @@ import androidx.compose.ui.input.pointer.util.VelocityTracker
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import java.lang.Float.max
+import kotlin.math.abs
 
 private const val MIN_SCALE = 1.0f
 private const val MID_SCALE = 1.75f
@@ -74,6 +75,36 @@ class ZoomState(
     private val velocityDecay = exponentialDecay<Float>()
     private var shouldFling = true
 
+    private var shouldConsumeEvent: Boolean? = null
+
+    fun canConsumeGesture(pan: Offset, zoom: Float): Boolean {
+        return shouldConsumeEvent ?: run {
+            var consume = true
+            if (zoom == 1f) { // One finger gesture
+                if (scale == 1f) {  // Not zoomed
+                    consume = false
+                } else {
+                    val ratio = (abs(pan.x) / abs(pan.y))
+                    if (ratio > 3) {   // Horizontal drag
+                        if ((pan.x < 0) && (_offsetX.value == _offsetX.lowerBound)) {
+                            // Drag R to L when right edge of the content is shown.
+                            consume = false
+                        }
+                        if ((pan.x > 0) && (_offsetX.value == _offsetX.upperBound)) {
+                            // Drag L to R when left edge of the content is shown.
+                            consume = false
+                        }
+                    }
+                }
+            }
+            shouldConsumeEvent = consume
+            consume
+        }
+    }
+    fun startGesture() {
+        shouldConsumeEvent = null
+    }
+
     suspend fun applyGesture(
         pan: Offset,
         zoom: Float,
@@ -135,6 +166,14 @@ class ZoomState(
         }
 
         shouldFling = true
+    }
+
+    suspend fun reset() = coroutineScope {
+        launch { _scale.snapTo(1f) }
+        _offsetX.updateBounds(0f, 0f)
+        launch { _offsetX.snapTo(0f) }
+        _offsetY.updateBounds(0f, 0f)
+        launch { _offsetY.snapTo(0f) }
     }
 
     suspend fun applyDoubleTap() = coroutineScope {

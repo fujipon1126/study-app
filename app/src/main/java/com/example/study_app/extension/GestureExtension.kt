@@ -17,7 +17,7 @@ import kotlin.math.abs
 
 suspend fun PointerInputScope.detectTransformGestures(
     panZoomLock: Boolean = false,
-    onGesture: (centroid: Offset, pan: Offset, zoom: Float, rotation: Float, timeMillis: Long) -> Unit,
+    onGesture: (centroid: Offset, pan: Offset, zoom: Float, rotation: Float, timeMillis: Long) -> Boolean,
     onGestureStart: () -> Unit = {},
     onGestureEnd: () -> Unit = {},
     onDoubleTap: ((Offset) -> Unit)? = null
@@ -67,17 +67,19 @@ suspend fun PointerInputScope.detectTransformGestures(
                             zoomChange != 1f ||
                             panChange != Offset.Zero
                         ) {
-                            onGesture(
+                            val isConsumed = onGesture(
                                 centroid,
                                 panChange,
                                 zoomChange,
                                 effectiveRotation,
                                 event.changes[0].uptimeMillis
                             )
-                        }
-                        event.changes.fastForEach {
-                            if (it.positionChanged()) {
-                                it.consume()
+                            if (isConsumed) {
+                                event.changes.fastForEach {
+                                    if (it.positionChanged()) {
+                                        it.consume()
+                                    }
+                                }
                             }
                         }
                     }

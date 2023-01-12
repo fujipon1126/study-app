@@ -12,12 +12,14 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
@@ -36,12 +38,19 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ZoomImageComposable() {
+fun ZoomImageComposable(
+    imageUrl: String,
+    isVisible: Boolean
+) {
 //    var scale by remember { mutableStateOf(1f) }
 //    var offset by remember { mutableStateOf(Offset.Zero) }
 
     val zoomState = rememberZoomState()
     val scope = rememberCoroutineScope()
+
+    LaunchedEffect(key1 = isVisible) {
+        zoomState.reset()
+    }
 
 //    val state = rememberTransformableState { zoomChange, offsetChange, _ ->
 //        scale *= zoomChange
@@ -84,7 +93,7 @@ fun ZoomImageComposable() {
 //    )
 
     AsyncImage(
-        model = "https://developer.android.com/images/brand/Android_Robot.png",
+        model = imageUrl,
         contentDescription = "kintone",
         modifier = Modifier
             .combinedClickable(
@@ -97,16 +106,24 @@ fun ZoomImageComposable() {
                     }
                 }
             )
+            .clipToBounds()
             .onSizeChanged { size ->
                 zoomState.setLayoutSize(size.toSize())
             }
             .fillMaxSize()
             .pointerInput(Unit) {
                 detectTransformGestures(
+                    onGestureStart = {
+                        zoomState.startGesture()
+                    },
                     onGesture = { centroid, pan, zoom, _, timeMillis ->
-                        scope.launch {
-                            zoomState.applyGesture(pan, zoom, centroid, timeMillis)
+                        val canConsume = zoomState.canConsumeGesture(pan = pan, zoom = zoom)
+                        if (canConsume) {
+                            scope.launch {
+                                zoomState.applyGesture(pan, zoom, centroid, timeMillis)
+                            }
                         }
+                        canConsume
                     },
                     onGestureEnd = {
                         scope.launch {
@@ -114,13 +131,6 @@ fun ZoomImageComposable() {
                         }
                     }
                 )
-//                detectTapGestures(
-//                    onDoubleTap = {
-//                        scope.launch {
-//                            zoomState.applyDoubleTap()
-//                        }
-//                    }
-//                )
             }
             .graphicsLayer {
                 scaleX = zoomState.scale
@@ -137,5 +147,8 @@ fun ZoomImageComposable() {
 @Preview
 @Composable
 fun ZoomImageComposablePreview() {
-    ZoomImageComposable()
+    ZoomImageComposable(
+        imageUrl = "",
+        isVisible = true
+    )
 }
