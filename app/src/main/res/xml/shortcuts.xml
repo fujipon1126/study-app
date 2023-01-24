@@ -17,6 +17,20 @@
         <intent
             android:action="android.intent.action.VIEW"
             android:targetPackage="com.example.study_app"
-            android:targetClass="com.example.study_app.MainActivity" />
+            android:targetClass="com.example.study_app.MainActivity">
+            <extra android:name="shortcut" android:value="photo_picker" />
+        </intent>
+    </shortcut>
+
+    <shortcut
+        android:icon="@drawable/ic_launcher_background"
+        android:shortcutId="shortcut_test3"
+        android:shortcutShortLabel="@string/shortcut3">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.example.study_app"
+            android:targetClass="com.example.study_app.MainActivity">
+            <extra android:name="shortcut" android:value="zoom_image" />
+        </intent>
     </shortcut>
 </shortcuts>
