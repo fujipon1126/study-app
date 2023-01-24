@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">study-app</string>
     <string name="shortcut">ショートカットテスト</string>
+    <string name="shortcut2">ショートカットテスト2</string>
 </resources>
