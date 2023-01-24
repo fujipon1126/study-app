@@ -52,7 +52,8 @@ fun MyNavHost(
             MainComposable(
                 modifier = modifier,
                 onNavigateToRequest = { navController.navigate("request_permission") },
-                onNavigateToPhotoPicker = { navController.navigate("photo_picker") }
+                onNavigateToPhotoPicker = { navController.navigate("photo_picker") },
+                onNavigateToZoomImage = { navController.navigate("zoom_image") }
             )
         }
         composable("request_permission") {
@@ -106,6 +107,9 @@ fun MyNavHost(
                     }
                 }
             )
+        }
+        composable("zoom_image") {
+            ZoomImageComposablePager()
         }
     }
 
