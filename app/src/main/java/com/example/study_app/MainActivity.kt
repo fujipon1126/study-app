@@ -13,6 +13,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.findNavController
 import com.example.study_app.composable.MyNavHost
 import com.example.study_app.ui.theme.StudyappTheme
 
@@ -34,9 +36,16 @@ class MainActivity : ComponentActivity() {
             }
             requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
         }
+
+        // ショートカット起動のチェック
+        var shortcutExtra = "main"
+        if (intent.extras?.containsKey("shortcut") == true) {
+            shortcutExtra = intent.getStringExtra("shortcut").toString()
+        }
+
         setContent {
             StudyappTheme {
-                MyNavHost()
+                MyNavHost(startDestination = shortcutExtra)
             }
         }
     }

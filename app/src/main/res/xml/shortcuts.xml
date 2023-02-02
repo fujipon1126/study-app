@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:icon="@drawable/lucci"
+        android:shortcutId="shortcut_test"
+        android:shortcutShortLabel="@string/shortcut">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.example.study_app"
+            android:targetClass="com.example.study_app.MainActivity" />
+    </shortcut>
+
+    <shortcut
+        android:icon="@drawable/ic_100tb"
+        android:shortcutId="shortcut_test2"
+        android:shortcutShortLabel="@string/shortcut2">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.example.study_app"
+            android:targetClass="com.example.study_app.MainActivity">
+            <extra android:name="shortcut" android:value="photo_picker" />
+        </intent>
+    </shortcut>
+
+    <shortcut
+        android:icon="@drawable/ic_launcher_background"
+        android:shortcutId="shortcut_test3"
+        android:shortcutShortLabel="@string/shortcut3">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.example.study_app"
+            android:targetClass="com.example.study_app.MainActivity">
+            <extra android:name="shortcut" android:value="zoom_image" />
+        </intent>
+    </shortcut>
+</shortcuts>
