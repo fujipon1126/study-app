@@ -13,8 +13,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.findNavController
 import com.example.study_app.composable.MyNavHost
 import com.example.study_app.ui.theme.StudyappTheme
 
@@ -56,7 +54,8 @@ fun MainComposable(
     modifier: Modifier = Modifier,
     onNavigateToRequest: () -> Unit,
     onNavigateToPhotoPicker: () -> Unit,
-    onNavigateToZoomImage: () -> Unit
+    onNavigateToZoomImage: () -> Unit,
+    onForceCrash: () -> Unit
 ) {
     Column(modifier = modifier) {
         Button(onClick = onNavigateToRequest) {
@@ -70,6 +69,10 @@ fun MainComposable(
         Button(onClick = onNavigateToZoomImage) {
             Text(text = "Navigate ZoomImageComposable")
         }
+
+        Button(onClick = onForceCrash) {
+            Text(text = "ForceCrash")
+        }
     }
 }
 
@@ -80,7 +83,8 @@ fun DefaultPreview() {
         MainComposable(
             onNavigateToRequest = {},
             onNavigateToPhotoPicker = {},
-            onNavigateToZoomImage = {}
+            onNavigateToZoomImage = {},
+            onForceCrash = {}
         )
     }
 }

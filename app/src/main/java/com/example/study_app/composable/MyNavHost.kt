@@ -53,7 +53,10 @@ fun MyNavHost(
                 modifier = modifier,
                 onNavigateToRequest = { navController.navigate("request_permission") },
                 onNavigateToPhotoPicker = { navController.navigate("photo_picker") },
-                onNavigateToZoomImage = { navController.navigate("zoom_image") }
+                onNavigateToZoomImage = { navController.navigate("zoom_image") },
+                onForceCrash = {
+                    throw RuntimeException("Test Crash")
+                }
             )
         }
         composable("request_permission") {
