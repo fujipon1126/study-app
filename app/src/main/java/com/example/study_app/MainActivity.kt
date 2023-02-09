@@ -15,7 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.study_app.composable.MyNavHost
 import com.example.study_app.ui.theme.StudyappTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +57,7 @@ fun MainComposable(
     onNavigateToRequest: () -> Unit,
     onNavigateToPhotoPicker: () -> Unit,
     onNavigateToZoomImage: () -> Unit,
+    onQiitaApi: () -> Unit,
     onForceCrash: () -> Unit
 ) {
     Column(modifier = modifier) {
@@ -68,6 +71,10 @@ fun MainComposable(
 
         Button(onClick = onNavigateToZoomImage) {
             Text(text = "Navigate ZoomImageComposable")
+        }
+
+        Button(onClick = onQiitaApi) {
+            Text(text = "Qiita Api Test Composable")
         }
 
         Button(onClick = onForceCrash) {
@@ -84,6 +91,7 @@ fun DefaultPreview() {
             onNavigateToRequest = {},
             onNavigateToPhotoPicker = {},
             onNavigateToZoomImage = {},
+            onQiitaApi = {},
             onForceCrash = {}
         )
     }
