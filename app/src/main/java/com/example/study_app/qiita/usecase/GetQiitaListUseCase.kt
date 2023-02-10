@@ -3,8 +3,9 @@ package com.example.study_app.qiita.usecase
 import com.example.study_app.qiita.domain.QiitaListDomainData
 import com.example.study_app.qiita.repository.QiitaListRepository
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class GetQiitaListUseCase(
+class GetQiitaListUseCase @Inject constructor(
     private val repository: QiitaListRepository
 ) {
 

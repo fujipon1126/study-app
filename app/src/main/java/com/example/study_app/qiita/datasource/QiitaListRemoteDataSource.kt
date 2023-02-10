@@ -1,5 +1,6 @@
 package com.example.study_app.qiita.datasource
 
+import com.example.study_app.qiita.IODispatcher
 import com.example.study_app.qiita.service.QiitaListApi
 import com.example.study_app.qiita.service.QiitaListBody
 import com.example.study_app.qiita.service.QiitaListResponse
@@ -8,10 +9,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
+import javax.inject.Inject
 
-class QiitaListRemoteDataSource(
+class QiitaListRemoteDataSource @Inject constructor(
     retrofit: Retrofit,
-    private val ioDispatcher: CoroutineDispatcher
+    @IODispatcher private val ioDispatcher: CoroutineDispatcher
 ) {
     private val qiitaListApi: QiitaListApi = retrofit.create(QiitaListApi::class.java)
 

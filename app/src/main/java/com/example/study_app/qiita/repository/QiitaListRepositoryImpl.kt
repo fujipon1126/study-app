@@ -5,8 +5,9 @@ import com.example.study_app.qiita.domain.QiitaListDomainData
 import com.example.study_app.qiita.service.toDomainData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class QiitaListRepositoryImpl(
+class QiitaListRepositoryImpl @Inject constructor(
     private val remoteDataSource: QiitaListRemoteDataSource
 ): QiitaListRepository {
 

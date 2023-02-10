@@ -1,6 +1,7 @@
 package com.example.study_app
 
 import android.Manifest
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
@@ -16,9 +17,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.study_app.composable.MyNavHost
 import com.example.study_app.ui.theme.StudyappTheme
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @Inject
+    @ApplicationContext
+    lateinit var context: Context
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Android13以降はPOST_NOTIFICATIONSの権限許諾を求める(Activityの場合)
@@ -28,10 +35,10 @@ class MainActivity : ComponentActivity() {
             ) { granted ->
                 if (granted) {
                     // 権限を取得できた
-                    Toast.makeText(applicationContext, "権限取得した", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "権限取得した", Toast.LENGTH_SHORT).show()
                 } else {
                     // 権限を取得できなかった
-                    Toast.makeText(applicationContext, "権限取得できなかった", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "権限取得できなかった", Toast.LENGTH_SHORT).show()
                 }
             }
             requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)

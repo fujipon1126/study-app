@@ -7,9 +7,10 @@ import com.example.study_app.qiita.usecase.GetQiitaListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
-class QiitaListViewModel constructor(
+class QiitaListViewModel @Inject constructor(
     private val getQiitaListUseCase: GetQiitaListUseCase
 ) : ViewModel() {
 
