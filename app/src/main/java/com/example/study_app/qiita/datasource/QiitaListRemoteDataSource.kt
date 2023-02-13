@@ -1,9 +1,8 @@
 package com.example.study_app.qiita.datasource
 
 import com.example.study_app.qiita.IODispatcher
+import com.example.study_app.qiita.service.*
 import com.example.study_app.qiita.service.QiitaListApi
-import com.example.study_app.qiita.service.QiitaListBody
-import com.example.study_app.qiita.service.QiitaListResponse
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -20,11 +19,15 @@ class QiitaListRemoteDataSource @Inject constructor(
     fun fetchQiitaList(
         page: Int,
         query: String?
-    ): Flow<QiitaListResponse> {
+    ): Flow<List<QiitaListResponseDataItem>> {
         return flow {
-            val body = QiitaListBody(page = page, query = query)
+//            val body = QiitaListBody(page = page, query = query)
             withContext(ioDispatcher) {
-                qiitaListApi.fetchQiitaList(body)
+                qiitaListApi.fetchQiitaList(
+                    page = page,
+                    parPage = 20,
+//                    query = query
+                )
             }
         }
     }

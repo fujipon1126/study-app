@@ -11,10 +11,13 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -31,9 +34,11 @@ class ApiModule {
             .add(KotlinJsonAdapterFactory())
             .add(Date::class.java, Rfc3339DateJsonAdapter())
         val moshiConverterFactory = MoshiConverterFactory.create(moshi.build())
+        val rxJava3CallAdapterFactory = RxJava3CallAdapterFactory.createWithScheduler(Schedulers.io())
         return Retrofit.Builder()
-            .baseUrl("https://qiita.com/api/v2")
+            .baseUrl("https://qiita.com/api/v2/")
             .addConverterFactory(moshiConverterFactory)
+            .addCallAdapterFactory(rxJava3CallAdapterFactory)
             .client(okHttpClient)
             .build()
     }
@@ -44,6 +49,9 @@ class ApiModule {
             connectTimeout(30, TimeUnit.SECONDS)
             readTimeout(30, TimeUnit.SECONDS)
             writeTimeout(30, TimeUnit.SECONDS)
+            addInterceptor(HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            })
 //            addInterceptor(networkConnectivityInterceptor)
 //            addInterceptor(requestTokenInterceptor)
 //            addInterceptor(basicAuthInterceptor)
