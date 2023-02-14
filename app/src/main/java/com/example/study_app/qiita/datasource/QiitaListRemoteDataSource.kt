@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 class QiitaListRemoteDataSource @Inject constructor(
     retrofit: Retrofit,
-    @IODispatcher private val ioDispatcher: CoroutineDispatcher
+//    @IODispatcher private val ioDispatcher: CoroutineDispatcher
 ) {
     private val qiitaListApi: QiitaListApi = retrofit.create(QiitaListApi::class.java)
 
@@ -22,13 +22,14 @@ class QiitaListRemoteDataSource @Inject constructor(
     ): Flow<List<QiitaListResponseDataItem>> {
         return flow {
 //            val body = QiitaListBody(page = page, query = query)
-            withContext(ioDispatcher) {
-                qiitaListApi.fetchQiitaList(
+//            withContext(ioDispatcher) {
+                val response = qiitaListApi.fetchQiitaList(
                     page = page,
                     parPage = 20,
 //                    query = query
                 )
-            }
+                emit(response)
+//            }
         }
     }
 }
