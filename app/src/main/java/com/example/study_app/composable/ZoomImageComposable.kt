@@ -1,5 +1,6 @@
 package com.example.study_app.composable
 
+import android.graphics.BitmapFactory
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.combinedClickable
@@ -25,6 +26,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -32,9 +34,11 @@ import androidx.compose.ui.unit.toSize
 import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 import com.example.study_app.R
 import com.example.study_app.extension.detectTransformGestures
 import kotlinx.coroutines.launch
+import java.io.File
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -142,6 +146,11 @@ fun ZoomImageComposable(
             zoomState.setImageSize(success.painter.intrinsicSize)
         }
     )
+
+    // ローカルファイル読み込み
+//    Image(
+//        painter = rememberAsyncImagePainter(model = BitmapFactory.decodeFile(File("/data/user/0/com.example.study_app/cache/image_cache/mobile.png").absolutePath)),
+//        contentDescription = null)
 }
 
 @Preview
