@@ -14,6 +14,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import com.example.study_app.background.OneTimeWorker
 import com.example.study_app.composable.MyNavHost
 import com.example.study_app.ui.theme.StudyappTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,6 +52,10 @@ class MainActivity : ComponentActivity() {
         if (intent.extras?.containsKey("shortcut") == true) {
             shortcutExtra = intent.getStringExtra("shortcut").toString()
         }
+
+        // WorkManager実行確認
+        val oneTimeWorkerRequest = OneTimeWorkRequestBuilder<OneTimeWorker>().build()
+        WorkManager.getInstance(context).enqueue(oneTimeWorkerRequest)
 
         setContent {
             StudyappTheme {
