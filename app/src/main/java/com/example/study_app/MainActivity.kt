@@ -72,6 +72,7 @@ fun MainComposable(
     onNavigateToPhotoPicker: () -> Unit,
     onNavigateToZoomImage: () -> Unit,
     onQiitaApi: () -> Unit,
+    onWorkManager: () -> Unit,
     onForceCrash: () -> Unit
 ) {
     Column(modifier = modifier) {
@@ -91,6 +92,10 @@ fun MainComposable(
             Text(text = "Qiita Api Test Composable")
         }
 
+        Button(onClick = onWorkManager) {
+            Text(text = "WorkManager Composable")
+        }
+
         Button(onClick = onForceCrash) {
             Text(text = "ForceCrash")
         }
@@ -106,6 +111,7 @@ fun DefaultPreview() {
             onNavigateToPhotoPicker = {},
             onNavigateToZoomImage = {},
             onQiitaApi = {},
+            onWorkManager = {},
             onForceCrash = {}
         )
     }
