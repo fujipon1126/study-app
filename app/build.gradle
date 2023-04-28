@@ -3,6 +3,9 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
+    id 'com.google.dagger.hilt.android'
+    id 'kotlin-kapt'
+
 }
 
 android {
@@ -52,6 +55,7 @@ dependencies {
 
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
     implementation 'androidx.activity:activity-compose:1.5.1'
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.ui:ui-util:$compose_version"
@@ -63,10 +67,25 @@ dependencies {
     implementation "androidx.activity:activity-ktx:$activity_version"
     implementation 'com.google.firebase:firebase-crashlytics-ktx:18.3.3'
     implementation 'com.google.firebase:firebase-analytics-ktx:21.2.0'
+
+    implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
+
+    implementation 'androidx.hilt:hilt-navigation-compose:1.1.0-alpha01'
+    implementation 'com.google.dagger:hilt-android:2.44.2'
+    kapt 'com.google.dagger:hilt-android-compiler:2.44.2'
+    implementation 'com.squareup.moshi:moshi-adapters:1.14.0'
+    implementation 'com.squareup.moshi:moshi-kotlin:1.14.0'
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+}
+
+kapt {
+    correctErrorTypes = true
 }

@@ -16,6 +16,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.study_app.MainComposable
+import com.example.study_app.qiita.list.QiitaListScreen
 
 @Composable
 fun MyNavHost(
@@ -54,6 +55,7 @@ fun MyNavHost(
                 onNavigateToRequest = { navController.navigate("request_permission") },
                 onNavigateToPhotoPicker = { navController.navigate("photo_picker") },
                 onNavigateToZoomImage = { navController.navigate("zoom_image") },
+                onQiitaApi = { navController.navigate("qiita_api") },
                 onForceCrash = {
                     throw RuntimeException("Test Crash")
                 }
@@ -113,6 +115,9 @@ fun MyNavHost(
         }
         composable("zoom_image") {
             ZoomImageComposablePager()
+        }
+        composable("qiita_api") {
+            QiitaListScreen()
         }
     }
 
