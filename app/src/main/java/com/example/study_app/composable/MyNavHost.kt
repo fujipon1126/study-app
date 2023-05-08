@@ -12,12 +12,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.work.Operation
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.study_app.MainComposable
@@ -29,7 +27,6 @@ import java.util.concurrent.TimeUnit
 fun MyNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    lifecycleOwner: LifecycleOwner,
     startDestination: String = "main"
 ) {
     val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
