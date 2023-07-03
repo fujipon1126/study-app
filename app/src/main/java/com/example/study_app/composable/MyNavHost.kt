@@ -11,12 +11,17 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.study_app.MainComposable
+import com.example.study_app.background.PeriodicWorker
 import com.example.study_app.qiita.list.QiitaListScreen
+import java.util.concurrent.TimeUnit
 
 @Composable
 fun MyNavHost(
@@ -34,15 +39,18 @@ fun MyNavHost(
     ) { uris ->
         Log.d("MyNavHost", "pickerから取得したUri数 ${uris.size}")
     }
-    val pickMultipleMediaLauncher: ActivityResultLauncher<Intent> = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartActivityForResult()
-    ) {
-        if (it.resultCode != Activity.RESULT_OK) {
-            Log.d("MyNavHost", "キャンセル")
-        } else {
+    val pickMultipleMediaLauncher: ActivityResultLauncher<Intent> =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.StartActivityForResult()
+        ) {
+            if (it.resultCode != Activity.RESULT_OK) {
+                Log.d("MyNavHost", "キャンセル")
+            } else {
 
+            }
         }
-    }
+
+    val ctx = LocalContext.current
 
     NavHost(
         modifier = modifier,
@@ -56,6 +64,7 @@ fun MyNavHost(
                 onNavigateToPhotoPicker = { navController.navigate("photo_picker") },
                 onNavigateToZoomImage = { navController.navigate("zoom_image") },
                 onQiitaApi = { navController.navigate("qiita_api") },
+                onWorkManager = { navController.navigate("workmanager") },
                 onForceCrash = {
                     throw RuntimeException("Test Crash")
                 }
@@ -119,6 +128,20 @@ fun MyNavHost(
         composable("qiita_api") {
             QiitaListScreen()
         }
+        composable("workmanager") {
+            WorkManagerComposable(
+                onPeriodicWorkRequestStart = {
+                    // 15分間隔で実行
+                    val periodicRequest = PeriodicWorkRequestBuilder<PeriodicWorker>(
+                        15,
+                        TimeUnit.MINUTES
+                    ).addTag("PeriodicWorker").build()
+                    WorkManager.getInstance(ctx).enqueue(periodicRequest)
+                },
+                onCancelRequest = {
+                    WorkManager.getInstance(ctx).cancelAllWorkByTag("PeriodicWorker")
+                }
+            )
+        }
     }
-
 }

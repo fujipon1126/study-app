@@ -14,6 +14,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import com.example.study_app.background.OneTimeWorker
 import com.example.study_app.composable.MyNavHost
 import com.example.study_app.ui.theme.StudyappTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,6 +53,10 @@ class MainActivity : ComponentActivity() {
             shortcutExtra = intent.getStringExtra("shortcut").toString()
         }
 
+        // WorkManager実行確認
+        val oneTimeWorkerRequest = OneTimeWorkRequestBuilder<OneTimeWorker>().build()
+        WorkManager.getInstance(context).enqueue(oneTimeWorkerRequest)
+
         setContent {
             StudyappTheme {
                 MyNavHost(startDestination = shortcutExtra)
@@ -65,6 +72,7 @@ fun MainComposable(
     onNavigateToPhotoPicker: () -> Unit,
     onNavigateToZoomImage: () -> Unit,
     onQiitaApi: () -> Unit,
+    onWorkManager: () -> Unit,
     onForceCrash: () -> Unit
 ) {
     Column(modifier = modifier) {
@@ -84,6 +92,10 @@ fun MainComposable(
             Text(text = "Qiita Api Test Composable")
         }
 
+        Button(onClick = onWorkManager) {
+            Text(text = "WorkManager Composable")
+        }
+
         Button(onClick = onForceCrash) {
             Text(text = "ForceCrash")
         }
@@ -99,6 +111,7 @@ fun DefaultPreview() {
             onNavigateToPhotoPicker = {},
             onNavigateToZoomImage = {},
             onQiitaApi = {},
+            onWorkManager = {},
             onForceCrash = {}
         )
     }
