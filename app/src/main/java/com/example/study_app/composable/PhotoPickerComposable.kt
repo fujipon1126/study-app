@@ -24,7 +24,7 @@ fun PhotoPickerComposable(
             Text(text = "launch single photo picker Video Only!")
         }
         Button(onClick = onLaunchMultiPickerMimeType) {
-            Text(text = "launch multi photo picker MimeType = */* !")
+            Text(text = "launch multi photo picker Multi MimeType = */* !")
         }
         Button(onClick = onLaunchOtherPicker) {
             Text(text = "launch other photo picker ")
