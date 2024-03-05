@@ -30,7 +30,8 @@ import java.util.concurrent.TimeUnit
 fun MyNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    startDestination: String = "main"
+    startDestination: String = "main",
+    onPinnedShortcut: () -> Unit,
 ) {
     val context = LocalContext.current
     val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
@@ -70,6 +71,7 @@ fun MyNavHost(
                 onNavigateToZoomImage = { navController.navigate("zoom_image") },
                 onQiitaApi = { navController.navigate("qiita_api") },
                 onWorkManager = { navController.navigate("workmanager") },
+                onPinnedShortcut = onPinnedShortcut,
                 onForceCrash = {
                     throw RuntimeException("Test Crash")
                 }
