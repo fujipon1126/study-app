@@ -5,10 +5,12 @@ import android.content.Intent
 import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -23,12 +25,15 @@ import com.example.study_app.background.PeriodicWorker
 import com.example.study_app.qiita.list.QiitaListScreen
 import java.util.concurrent.TimeUnit
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun MyNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    startDestination: String = "main"
+    startDestination: String = "main",
+    onPinnedShortcut: () -> Unit,
 ) {
+    val context = LocalContext.current
     val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia()
     ) { uri ->
@@ -38,6 +43,7 @@ fun MyNavHost(
         contract = ActivityResultContracts.PickMultipleVisualMedia(3)
     ) { uris ->
         Log.d("MyNavHost", "pickerから取得したUri数 ${uris.size}")
+        Toast.makeText(context, "選択可能最大数:" + MediaStore.getPickImagesMaxLimit(), Toast.LENGTH_LONG).show()
     }
     val pickMultipleMediaLauncher: ActivityResultLauncher<Intent> =
         rememberLauncherForActivityResult(
@@ -65,6 +71,7 @@ fun MyNavHost(
                 onNavigateToZoomImage = { navController.navigate("zoom_image") },
                 onQiitaApi = { navController.navigate("qiita_api") },
                 onWorkManager = { navController.navigate("workmanager") },
+                onPinnedShortcut = onPinnedShortcut,
                 onForceCrash = {
                     throw RuntimeException("Test Crash")
                 }
