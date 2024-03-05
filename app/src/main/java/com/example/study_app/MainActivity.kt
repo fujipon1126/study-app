@@ -24,7 +24,6 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.study_app.background.OneTimeWorker
 import com.example.study_app.composable.MyNavHost
-import com.example.study_app.extension.getHandleType
 import com.example.study_app.ui.theme.StudyappTheme
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -60,8 +59,6 @@ class MainActivity : ComponentActivity() {
             shortcutExtra = intent.getStringExtra("shortcut").toString()
         }
 
-        val handleType = intent.getHandleType()
-        Log.d("intent.getHandleType()", handleType)
 
         // WorkManager実行確認
         val oneTimeWorkerRequest = OneTimeWorkRequestBuilder<OneTimeWorker>().build()
