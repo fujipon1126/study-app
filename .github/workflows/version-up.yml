@@ -32,6 +32,17 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Get APP_VERSION
+      - name: Get Variables
         run: |
           echo ${{ vars.APP_VERSION }}
+          echo ${{ vars.MAGIC_NUMBER }}
+
+      - name: Update Variables
+        run: |
+          echo "${{ vars.APP_VERSION }} = ${{ github.event.inputs.version }}"  >> $GITHUB_ENV
+          echo "${{ vars.MAGIC_NUMBER }} = $(($vars.MAGIC_NUMBER + $GITHUB_RUN_NUMBER))"  >> $GITHUB_ENV
+
+      - name: After Variables
+        run: |
+          echo ${{ vars.APP_VERSION }}
+          echo ${{ vars.MAGIC_NUMBER }}
