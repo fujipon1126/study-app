@@ -40,3 +40,5 @@ jobs:
           echo $GITHU_ENV
           echo "${{ env.APP_VERSION }}"
           echo "${{ vars.APP_VERSION }}"
+          echo ${{ env.APP_VERSION }}
+          echo ${{ vars.APP_VERSION }}
