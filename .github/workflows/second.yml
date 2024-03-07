@@ -6,8 +6,8 @@ on:
       version:
         type: string
         required: false
-        description: バージョンは？
-        default: "${APP_VERSION}"
+        description: バージョンは？(未指定の場合は現在のバージョン)
+        default: ${APP_VERSION}
 
       selected:
         type: boolean
