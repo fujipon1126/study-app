@@ -33,9 +33,11 @@ jobs:
     timeout-minutes: 5
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: ./github/workflows/second.yml
-
-      - name: Read Variables
+      - name: Set Environment Variables
+        uses: ./.github/actions
+        with:
+            varFilePath: ./.github/variables/variables.env
+      - name: Read Environment Variables
         run: |
           echo ${{ env.APP_VERSION }}
+          echo ${{ env.MAGIC_NUMBER }}
