@@ -39,8 +39,8 @@ jobs:
 
       - name: Update Variables
         run: |
-          echo "${{ vars.APP_VERSION }} = ${{ github.event.inputs.version }}"  >> $GITHUB_ENV
-          echo "${{ vars.MAGIC_NUMBER }} = $((${{ vars.MAGIC_NUMBER }} + $GITHUB_RUN_NUMBER))"  >> $GITHUB_ENV
+          echo "$vars.APP_VERSION = ${{ github.event.inputs.version }}"  >> $GITHUB_ENV
+#          echo "${{ vars.MAGIC_NUMBER }} = $((${{ vars.MAGIC_NUMBER }} + $GITHUB_RUN_NUMBER))"  >> $GITHUB_ENV
 
       - name: After Variables
         run: |
