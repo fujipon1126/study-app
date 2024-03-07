@@ -23,8 +23,8 @@ jobs:
 
       - name: Show
         run: |
-            echo "APP_VERSION=${{APP_VERSION}}"
-            echo "MAGIC_NUMBER=${{MAGIC_NUMBER}}"
+            echo "APP_VERSION=${APP_VERSION}"
+            echo "MAGIC_NUMBER=${MAGIC_NUMBER}"
             echo "run branch=" $(git branch --show-current | sed 's|/|-|g')
 
       - name: update env
