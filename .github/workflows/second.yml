@@ -5,13 +5,14 @@ on:
     inputs:
       version:
         type: string
-        required: true
+        required: false
         description: バージョンは？
+        default: ${APP_VERSION}
 
       selected:
         type: boolean
-        required: true
-        description: y/n？
+        required: false
+        description: リリースアーカイブ作成/バージョンアップ？
         default: true
 
 env:
