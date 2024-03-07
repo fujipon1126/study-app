@@ -8,9 +8,6 @@ on:
         required: true
         description: バージョンは？
 
-env:
-  WORKING_DIRECTORY: application
-
 jobs:
   show_input_value:
     name: Show Input Value
@@ -40,5 +37,5 @@ jobs:
 
       - name: Read Environment Variables
         run: |
-          echo $env.APP_VERSION
+          echo "$env.APP_VERSION"
           echo ${{ env.MAGIC_NUMBER }}
