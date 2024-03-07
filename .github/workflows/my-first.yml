@@ -39,3 +39,4 @@ jobs:
         run: |
           echo "$env.APP_VERSION"
           echo ${{ env.MAGIC_NUMBER }}
+          echo ${APP_VERSION}
