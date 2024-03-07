@@ -7,7 +7,7 @@ on:
         type: string
         required: false
         description: バージョンは？
-        default: ${APP_VERSION}
+        default: "${APP_VERSION}"
 
       selected:
         type: boolean
