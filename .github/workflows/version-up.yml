@@ -41,12 +41,18 @@ jobs:
         run: |
 #          echo "$vars.APP_VERSION = ${{ github.event.inputs.version }}"  >> $GITHUB_ENV
 #          echo "${{ vars.MAGIC_NUMBER }} = $((${{ vars.MAGIC_NUMBER }} + $GITHUB_RUN_NUMBER))"  >> $GITHUB_ENV
-          curl -L \
-          -X PATCH \
-          -H "Accept: application/vnd.github+json" \
-          -H "Authorization: Bearer ${{ secrets.PERSONAL_ACCESS_TOKEN }}" \
-          https://api.github.com/api/v3/repos/fujipon1126/study-app/actions/variables/APP_VERSION \
-          -d '{"name":"APP_VERSION","value":${{ github.event.inputs.version }}}'
+#          curl -L \
+#          -X PATCH \
+#          -H "Accept: application/vnd.github+json" \
+#          -H "Authorization: Bearer ${{ secrets.PERSONAL_ACCESS_TOKEN }}" \
+#          https://api.github.com/api/v3/repos/fujipon1126/study-app/actions/variables/APP_VERSION \
+#          -d '{"name":"APP_VERSION","value":${{ github.event.inputs.version }}}'
+               
+          curl --request POST \
+               --url https://api.github.com/repos/${{ github.repository }}/actions/variables/APP_VERSION \
+               --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+               --header 'content-type: application/json' \
+               -d '{"name":"APP_VERSION","value":${{ github.event.inputs.version }}}'
 
       - name: After Variables
         run: |
