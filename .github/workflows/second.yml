@@ -12,6 +12,7 @@ on:
         type: boolean
         required: true
         description: y/n？
+        default: true
 
 env:
   APP_VERSION: "2024.3.1"
@@ -20,7 +21,7 @@ env:
 jobs:
   shon_env_value:
     name: Show Env Value
-    if: github.event.inputs.selected == true
+    if: ${{ inputs.selected }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
