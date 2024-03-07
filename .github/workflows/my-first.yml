@@ -8,6 +8,9 @@ on:
         required: true
         description: バージョンは？
 
+env:
+  WORKING_DIRECTORY: application
+
 jobs:
   show_input_value:
     name: Show Input Value
