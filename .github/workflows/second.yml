@@ -8,6 +8,11 @@ on:
         required: true
         description: バージョンは？
 
+      selected:
+        type: boolean
+        required: true
+        description: y/n？
+
 env:
   APP_VERSION: "2024.3.1"
   MAGIC_NUMBER: "1"
@@ -15,6 +20,7 @@ env:
 jobs:
   shon_env_value:
     name: Show Env Value
+    if: github.event.inputs.version == true
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
