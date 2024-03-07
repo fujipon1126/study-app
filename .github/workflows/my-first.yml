@@ -42,5 +42,7 @@ jobs:
 
       - name: Read Environment Variables
         run: |
+          echo $APP_VERSION
           echo $env.APP_VERSION
+          echo ${{ MAGIC_NUMBER }}
           echo ${{ env.MAGIC_NUMBER }}
