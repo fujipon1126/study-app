@@ -2,7 +2,11 @@ name: second
 
 on:
   workflow_dispatch:
-
+    inputs:
+      version:
+        type: string
+        required: true
+        description: バージョンは？
 
 env:
   APP_VERSION: "2024.3.1"
@@ -21,3 +25,13 @@ jobs:
         run: |
             echo ${APP_VERSION}
             echo ${MAGIC_NUMBER}
+            echo ${{ inputs.deploy_target }}
+
+      - name: update env
+        run: |
+          echo "APP_VERSION=${{ github.event.inputs.version }}" >> GITHUB_ENV
+          echo "MAGIC_NUMBER=$(($MAGIC_NUMBER + $GITHUB_RUN_NUMBER))" >> $GITHUB_ENV
+
+      - name: after update env
+        run: |
+          echo ${APP_VERSION}
