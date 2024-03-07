@@ -21,3 +21,8 @@ jobs:
         run: |
           echo ${{ github.event.inputs.version }}
           echo "GITHUB_RUN_NUMBER=${GITHUB_RUN_NUMBER}"
+
+      - name: read another file env
+        run: |
+          echo ${{ env.APP_VERSION }}
+          echo ${{ env.MAGIC_NUMBER }}
