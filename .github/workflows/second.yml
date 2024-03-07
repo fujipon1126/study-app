@@ -33,6 +33,7 @@ jobs:
         run: |
             echo "APP_VERSION=${APP_VERSION}"
             echo "MAGIC_NUMBER=${MAGIC_NUMBER}"
+            echo "input version=${{ github.event.inputs.version }}"
             echo "run branch=" $(git branch --show-current | sed 's|/|-|g')
 
       - name: update env
