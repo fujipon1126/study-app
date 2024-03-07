@@ -10,19 +10,28 @@ on:
 
 jobs:
   create_tag:
-    name: Create_Tag
+    name: Create Tag
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
     steps:
       - uses: actions/checkout@v3
 
-      - run: git fetch origin $(git branch --show-current)
-      - run: git checkout $(git branch --show-current)
-      - run: git tag tag-v${{ github.event.inputs.version }}
-      - run: git push origin tag-v${{ github.event.inputs.version }}
-
-
-      - name: get APP_VERSION
+      - name: Create Tag
         run: |
-          echo ${{ vars.ENV_CONTEXT_VAR }}
+          git fetch origin $(git branch --show-current)
+          git checkout $(git branch --show-current)
+          git tag tag-v${{ github.event.inputs.version }}
+          git push origin tag-v${{ github.event.inputs.version }}
+
+  update_version:
+    name: Update Version
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Get APP_VERSION
+        run: |
+          echo ${{ vars.APP_VERSION }}
