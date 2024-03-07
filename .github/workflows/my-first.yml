@@ -34,11 +34,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
       - name: Set Environment Variables
         uses: ./.github/actions
         with:
             varFilePath: ./.github/variables/variables.env
+
       - name: Read Environment Variables
         run: |
-          echo ${{ env.APP_VERSION }}
-          echo ${{ env.MAGIC_NUMBER }}
+          echo ${{ APP_VERSION }}
+          echo ${{ MAGIC_NUMBER }}
