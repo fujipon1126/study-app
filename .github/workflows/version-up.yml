@@ -1,0 +1,22 @@
+name: version-up
+
+on:
+  workflow_dispatch:
+
+env:
+  APP_VERSION: "2024.3.1"
+  MAGIC_NUMBER: "1"
+
+jobs:
+  create_tag:
+    name: Create_Tag
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - run: git fetch origin $(git branch --show-current)
+      - run: git checkout $(git branch --show-current)
+      - run: git tag tag-v${{ github.event.inputs.version }}
+      - run: git push origin tag-v${{ github.event.inputs.version }}
