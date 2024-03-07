@@ -22,11 +22,6 @@ jobs:
           echo ${{ github.event.inputs.version }}
           echo "GITHUB_RUN_NUMBER=${GITHUB_RUN_NUMBER}"
 
-      - name: read another file env
-        run: |
-          echo ${{ env.APP_VERSION }}
-          echo ${{ env.MAGIC_NUMBER }}
-
   read_environment_value:
     name: Read Variables File Value
     runs-on: ubuntu-latest
@@ -42,7 +37,5 @@ jobs:
 
       - name: Read Environment Variables
         run: |
-          echo $APP_VERSION
           echo $env.APP_VERSION
-          echo ${{ MAGIC_NUMBER }}
           echo ${{ env.MAGIC_NUMBER }}
