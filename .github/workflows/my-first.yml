@@ -1,0 +1,23 @@
+name: my-first
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        type: string
+        required: true
+        description: バージョンは？
+
+jobs:
+  show_input_value:
+    name: Show Input Value
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Show
+        run: |
+          echo ${{ github.event.inputs.version }}
+          echo "GITHUB_RUN_NUMBER=${GITHUB_RUN_NUMBER}"
