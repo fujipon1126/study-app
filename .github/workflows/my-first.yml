@@ -26,3 +26,15 @@ jobs:
         run: |
           echo ${{ env.APP_VERSION }}
           echo ${{ env.MAGIC_NUMBER }}
+
+  read_second_value:
+    name: Read Second YAML Value
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: ./github/workflows/second.yml
+
+      - name: Read Variables
+        run: |
+          echo ${{ env.APP_VERSION }}
