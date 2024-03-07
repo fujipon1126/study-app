@@ -33,6 +33,7 @@ jobs:
     timeout-minutes: 5
 
     steps:
+      - uses: actions/checkout@v3
       - uses: ./github/workflows/second.yml
 
       - name: Read Variables
