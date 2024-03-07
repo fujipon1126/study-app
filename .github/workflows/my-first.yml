@@ -37,8 +37,4 @@ jobs:
 
       - name: Read Environment Variables
         run: |
-          echo "$env.APP_VERSION"
-          echo ${{ env.APP_VERSION }}
-          echo "${{env.APP_VERSION}}"
-          echo ${APP_VERSION}
-          echo "${APP_VERSION}"
+          echo $GITHU_ENV
