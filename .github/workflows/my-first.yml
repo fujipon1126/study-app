@@ -20,4 +20,4 @@ jobs:
       - name: Show
         run: |
           echo ${{ github.event.inputs.version }}
-          echo "$GITHUB_RUN_NUMBER=${$GITHUB_RUN_NUMBER}"
+          echo "qGITHUB_RUN_NUMBER=${GITHUB_RUN_NUMBER}"
