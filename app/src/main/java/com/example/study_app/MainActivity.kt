@@ -83,7 +83,7 @@ class MainActivity : ComponentActivity() {
                             val intent = Intent(context, MainActivity::class.java)
                             intent.action = Intent.ACTION_VIEW
                             intent.data = "https://www.yahoo.co.jp".toUri()
-                            intent.putExtra("shortcut", "main")
+                            intent.putExtra("shortcut", "photo_picker")
                             val pinShortcutInfo =
                                 ShortcutInfo.Builder(context, "id2")
                                     .setShortLabel("short label")
