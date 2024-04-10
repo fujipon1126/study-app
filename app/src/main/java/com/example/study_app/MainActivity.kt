@@ -25,6 +25,7 @@ import androidx.work.WorkManager
 import com.example.study_app.background.OneTimeWorker
 import com.example.study_app.composable.MyNavHost
 import com.example.study_app.ui.theme.StudyappTheme
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -59,6 +60,11 @@ class MainActivity : ComponentActivity() {
             shortcutExtra = intent.getStringExtra("shortcut").toString()
         }
 
+        // FirebaseのPushトークン
+        FirebaseMessaging.getInstance().token.addOnSuccessListener {
+            Toast.makeText(context, "Firebaseトークン::$it", Toast.LENGTH_SHORT).show()
+            Log.d("Firebaseトークン️", it)
+        }
 
         // WorkManager実行確認
         val oneTimeWorkerRequest = OneTimeWorkRequestBuilder<OneTimeWorker>().build()
