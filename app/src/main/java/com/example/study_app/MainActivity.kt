@@ -1,6 +1,8 @@
 package com.example.study_app
 
 import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -20,14 +22,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.net.toUri
+import androidx.lifecycle.coroutineScope
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.study_app.background.OneTimeWorker
 import com.example.study_app.composable.MyNavHost
+import com.example.study_app.pushnotification.MessageDto
+import com.example.study_app.pushnotification.PushClient
+import com.example.study_app.pushnotification.PushDto
 import com.example.study_app.ui.theme.StudyappTheme
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.Date
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -35,6 +46,8 @@ class MainActivity : ComponentActivity() {
     @Inject
     @ApplicationContext
     lateinit var context: Context
+
+    private lateinit var pushToken: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,15 +67,23 @@ class MainActivity : ComponentActivity() {
             requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
         }
 
-        // ショートカット起動のチェック
+        // 通知のチャンネル作成
+        createChannel()
+
+        // 起動種別のチェック
         var shortcutExtra = "main"
         if (intent.extras?.containsKey("shortcut") == true) {
+            // ショートカットから起動
             shortcutExtra = intent.getStringExtra("shortcut").toString()
+        } else if (intent.extras?.containsKey("push") == true) {
+            // push通知から起動
+            shortcutExtra = intent.getStringExtra("push").toString()
         }
 
         // FirebaseのPushトークン
         FirebaseMessaging.getInstance().token.addOnSuccessListener {
             Toast.makeText(context, "Firebaseトークン::$it", Toast.LENGTH_SHORT).show()
+            pushToken = it
             Log.d("Firebaseトークン️", it)
         }
 
@@ -108,10 +129,39 @@ class MainActivity : ComponentActivity() {
                                 successCallback.intentSender
                             )
                         }
+                    },
+                    onSendNotification = {
+                        lifecycle.coroutineScope.launch {
+                            withContext(Dispatchers.IO) {
+                                val pushClient = PushClient.create(context = context)
+                                val dataList = listOf(
+                                    Pair("title", "現在の日時"),
+                                    Pair("body", SimpleDateFormat.getDateInstance().format(Date())),
+                                )
+                                val messageDto = MessageDto().apply {
+                                    token = pushToken
+                                    name = "名前"
+                                    data = dataList.associate { it }
+                                }
+                                val pushDto = PushDto(message = messageDto)
+                                pushClient.sendPush(message = pushDto).execute()
+                            }
+                        }
                     }
                 )
             }
         }
+    }
+
+    private fun createChannel() {
+        val notificationManager = context.getSystemService(NotificationManager::class.java)!!
+        val channel = NotificationChannel(
+            "channel",
+            "チャンネルだよ",
+            NotificationManager.IMPORTANCE_HIGH
+        )
+
+        notificationManager.createNotificationChannel(channel)
     }
 }
 
@@ -124,6 +174,7 @@ fun MainComposable(
     onQiitaApi: () -> Unit,
     onWorkManager: () -> Unit,
     onPinnedShortcut: () -> Unit,
+    onSendNotification: () -> Unit,
     onForceCrash: () -> Unit
 ) {
     Column(modifier = modifier) {
@@ -151,6 +202,10 @@ fun MainComposable(
             Text(text = "Add Pinned short cut")
         }
 
+        Button(onClick = onSendNotification) {
+            Text(text = "Send Push Notification")
+        }
+
         Button(onClick = onForceCrash) {
             Text(text = "ForceCrash")
         }
@@ -168,6 +223,7 @@ fun DefaultPreview() {
             onQiitaApi = {},
             onWorkManager = {},
             onPinnedShortcut = {},
+            onSendNotification = {},
             onForceCrash = {}
         )
     }

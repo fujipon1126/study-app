@@ -32,6 +32,7 @@ fun MyNavHost(
     navController: NavHostController = rememberNavController(),
     startDestination: String = "main",
     onPinnedShortcut: () -> Unit,
+    onSendNotification: () -> Unit
 ) {
     val context = LocalContext.current
     val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
@@ -72,6 +73,7 @@ fun MyNavHost(
                 onQiitaApi = { navController.navigate("qiita_api") },
                 onWorkManager = { navController.navigate("workmanager") },
                 onPinnedShortcut = onPinnedShortcut,
+                onSendNotification = onSendNotification,
                 onForceCrash = {
                     throw RuntimeException("Test Crash")
                 }
