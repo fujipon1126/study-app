@@ -32,7 +32,9 @@ fun MyNavHost(
     navController: NavHostController = rememberNavController(),
     startDestination: String = "main",
     onPinnedShortcut: () -> Unit,
-    onSendNotification: () -> Unit
+    onSendNotification: () -> Unit,
+    onGlanceUpdate: () -> Unit,
+    onAddGlance: () -> Unit
 ) {
     val context = LocalContext.current
     val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
@@ -74,6 +76,8 @@ fun MyNavHost(
                 onWorkManager = { navController.navigate("workmanager") },
                 onPinnedShortcut = onPinnedShortcut,
                 onSendNotification = onSendNotification,
+                onGlanceUpdate = { onGlanceUpdate() },
+                onAddGlance = { onAddGlance() },
                 onForceCrash = {
                     throw RuntimeException("Test Crash")
                 }

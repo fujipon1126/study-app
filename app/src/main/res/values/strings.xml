@@ -3,4 +3,5 @@
     <string name="shortcut">ショートカットテスト</string>
     <string name="shortcut2">ピッカー起動</string>
     <string name="shortcut3">ZoomImage起動</string>
+    <string name="glance">Jetpack Glanceのテスト</string>
 </resources>

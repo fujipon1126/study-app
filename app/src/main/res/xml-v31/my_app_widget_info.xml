@@ -1,0 +1,7 @@
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialLayout="@layout/glance_default_loading_layout"
+    android:targetCellHeight="2"
+    android:targetCellWidth="2"
+    android:description="@string/glance"
+    android:resizeMode="horizontal|vertical">
+</appwidget-provider>
