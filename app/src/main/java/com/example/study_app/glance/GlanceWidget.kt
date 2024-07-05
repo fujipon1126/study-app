@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.glance.Button
-import androidx.glance.GlanceComposable
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
@@ -102,6 +101,7 @@ class GlanceWidget : GlanceAppWidget() {
                     val now = LocalDateTime.now()
                     val formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")
                     Text(
+                        modifier = GlanceModifier.padding(8.dp),
                         text = now.format(formatter),
                         style = TextStyle(color = GlanceTheme.colors.surface)
                     )
@@ -109,10 +109,10 @@ class GlanceWidget : GlanceAppWidget() {
             }
         }
     }
-}
 
-@Preview
-@Composable
-fun PreviewGlance() {
-    GlanceComposable()
+    @Preview
+    @Composable
+    fun PreviewGlance() {
+        GlanceContent()
+    }
 }

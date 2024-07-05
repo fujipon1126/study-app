@@ -10,7 +10,7 @@ class OneTimeWorker(context: Context, workerParams: WorkerParameters) : Worker(
     workerParams
 ) {
     override fun doWork(): Result {
-        Log.d("🌟", "OneTimeWorker#doWork!!!")
+        Log.d("⭐️", "OneTimeWorker#doWork!!!")
         return Result.success()
     }
 }

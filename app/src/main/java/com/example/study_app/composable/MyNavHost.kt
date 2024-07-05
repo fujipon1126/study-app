@@ -144,9 +144,9 @@ fun MyNavHost(
         composable("workmanager") {
             WorkManagerComposable(
                 onPeriodicWorkRequestStart = {
-                    // 15分間隔で実行
+                    // 5分間隔で実行
                     val periodicRequest = PeriodicWorkRequestBuilder<PeriodicWorker>(
-                        15,
+                        5,
                         TimeUnit.MINUTES
                     ).addTag("PeriodicWorker").build()
                     WorkManager.getInstance(ctx).enqueue(periodicRequest)
