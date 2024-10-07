@@ -1,9 +1,11 @@
 package com.example.study_app.composable
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 
 @Composable
 fun PhotoPickerComposable(
@@ -13,7 +15,7 @@ fun PhotoPickerComposable(
     onLaunchMultiPickerMimeType: () -> Unit,
     onLaunchOtherPicker: () -> Unit
 ) {
-    Column {
+    Column(modifier = Modifier.safeDrawingPadding()) {
         Button(onClick = onLaunchSinglePickerImageOnly) {
             Text(text = "launch single photo picker Image Only!")
         }
