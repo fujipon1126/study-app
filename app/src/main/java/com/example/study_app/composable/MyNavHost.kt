@@ -20,7 +20,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import com.example.study_app.MainComposable
 import com.example.study_app.background.PeriodicWorker
 import com.example.study_app.qiita.list.QiitaListScreen
 import java.util.concurrent.TimeUnit
