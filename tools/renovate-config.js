@@ -13,6 +13,12 @@ module.exports = {
       // major,minor,patch以外のバージョンアップは無効
       matchUpdateTypes: [ 'pin', 'pinDigest', 'digest', 'lockFileMaintenance', 'rollback', 'bump'],
       enabled: false
+    },
+    {
+      // minor,patchバージョンはautomergeする
+      matchUpdateTypes: [ "minor","patch" ],
+      automerge: true,
+      platformAutomerge: true
     }
   ],
   extends: [
