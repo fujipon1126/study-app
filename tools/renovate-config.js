@@ -17,8 +17,7 @@ module.exports = {
     {
       // minor,patchバージョンはautomergeする
       matchUpdateTypes: [ "minor","patch" ],
-      automerge: true,
-      platformAutomerge: true
+      automerge: true
     }
   ],
   extends: [
