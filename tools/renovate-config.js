@@ -24,6 +24,6 @@ module.exports = {
     "config:base",
     ":dependencyDashboard",
     ":prHourlyLimitNone",
-    ":prConcurrentLimit20"
+    ":prConcurrentLimitNone"
   ]
 };
