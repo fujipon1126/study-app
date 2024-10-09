@@ -16,8 +16,9 @@ module.exports = {
     },
     {
       // minor,patchバージョンはautomergeする
-      matchUpdateTypes: [ "minor","patch" ],
-      automerge: true
+      "matchUpdateTypes": ["minor", "patch"],
+      "schedule": ["after 10pm every weekday", "before 7am every weekday", "every weekend"], // 毎日22:00~翌7:00、週末
+      "automerge": true,
     }
   ],
   extends: [
