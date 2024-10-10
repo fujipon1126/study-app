@@ -90,7 +90,7 @@ dependencies {
     implementation 'com.google.dagger:hilt-android:2.44.2'
     kapt 'com.google.dagger:hilt-android-compiler:2.44.2'
     implementation 'com.squareup.moshi:moshi-adapters:1.14.0'
-    implementation 'com.squareup.moshi:moshi-kotlin:1.14.0'
+    implementation 'com.squareup.moshi:moshi-kotlin:1.15.1'
 
     // For Glance support
     implementation "androidx.glance:glance-material3:1.1.0-rc01"
