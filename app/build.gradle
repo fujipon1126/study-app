@@ -65,7 +65,7 @@ dependencies {
 
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.6'
     implementation 'androidx.activity:activity-compose:1.5.1'
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.ui:ui-util:$compose_version"
@@ -93,10 +93,10 @@ dependencies {
     implementation 'com.squareup.moshi:moshi-kotlin:1.14.0'
 
     // For Glance support
-    implementation "androidx.glance:glance-material3:1.1.0-rc01"
+    implementation "androidx.glance:glance-material3:1.1.0"
     // For AppWidgets support
     implementation "androidx.glance:glance-appwidget:1.1.0"
-    testImplementation 'org.robolectric:robolectric:4.12.1'
+    testImplementation 'org.robolectric:robolectric:4.13'
     testImplementation "androidx.glance:glance-testing:1.1.0-rc01"
     testImplementation "androidx.glance:glance-appwidget-testing:1.1.0"
 
