@@ -73,7 +73,7 @@ dependencies {
     implementation 'androidx.compose.material3:material3:1.0.0-alpha11'
     implementation "androidx.work:work-runtime-ktx:2.8.1"
     implementation "com.google.accompanist:accompanist-pager:0.19.0"
-    implementation "io.coil-kt:coil-compose:2.1.0"
+    implementation "io.coil-kt:coil-compose:2.7.0"
     implementation "androidx.navigation:navigation-compose:$nav_version"
     implementation "androidx.activity:activity-ktx:$activity_version"
     implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
