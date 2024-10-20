@@ -93,7 +93,7 @@ dependencies {
     implementation 'com.squareup.moshi:moshi-kotlin:1.14.0'
 
     // For Glance support
-    implementation "androidx.glance:glance-material3:1.1.0"
+    implementation "androidx.glance:glance-material3:1.1.1"
     // For AppWidgets support
     implementation "androidx.glance:glance-appwidget:1.1.0"
     testImplementation 'org.robolectric:robolectric:4.13'
