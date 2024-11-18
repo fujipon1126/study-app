@@ -20,3 +20,7 @@ jobs:
         with:
           configurationFile: tools/renovate-config.js
           token: ${{ secrets.RENOVATE_TOKEN }}
+        env:
+          RENOVATE_USERNAME: 'renovate[bot]'
+          RENOVATE_PLATFORM: 'github'
+          RENOVATE_GIT_AUTHOR: 'renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>'
